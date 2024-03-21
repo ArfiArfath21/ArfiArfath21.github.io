@@ -1,33 +1,3 @@
-// // Get a reference to the image element
-// const image = document.getElementById('spinImage');
- 
-// // Rotate the image randomly every 100 milliseconds
-// const rotationInterval = setInterval(() => {
-//   const randomRotation = Math.floor(Math.random() * 360); // Generate a random angle between 0 and 360 degrees
-//   image.style.transform = `rotate(${randomRotation}deg)`; // Apply the rotation to the image
-// }, 100);
- 
-// // Stop the rotation when the image is at a certain position (e.g., at 90 degrees)
-// const stopRotation = () => {
-//   clearInterval(rotationInterval); // Stop the rotation interval
-// //   image.style.transform = 'rotate(90deg)'; // Set the image rotation to the desired position
-//   const computedStyle = window.getComputedStyle(image);
- 
-// // Extract the rotation angle from the computed style
-// const transform = computedStyle.getPropertyValue('transform');
-// let rotationAngle = 0;
-//   if (transform && transform !== 'none') {
-//   // Extract the rotation angle from the transform matrix
-//   const matrix = transform.split('(')[1].split(')')[0].split(',');
-//   const a = matrix[0];
-//   const b = matrix[1];
-//   rotationAngle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-// }
- 
-// console.log('Rotation angle:', rotationAngle);
- 
-// };
-
 const image = document.getElementById("spinImage");
 const toggleButton = document.getElementById("toggleButton");
 let rotationInterval = null;
@@ -64,6 +34,16 @@ function getCurrentRotationAngle() {
   }
 
 const  sections_count = 8
+const sections = {
+  0: 'python',
+  1: 'diversity',
+  2: 'data',
+  3: 'ai',
+  4: 'inclusion',
+  5: 'test',
+  6: 'check',
+  7: 'work'
+};
 // Function to start or stop the rotation
 const toggleRotation = () => {
 rotationSpeed = getRandomInt(30,20)
@@ -77,7 +57,7 @@ rotationSpeed = getRandomInt(30,20)
       }
     console.log(rotationAngle);
     var division = Math.floor(rotationAngle/(360/sections_count));
-    generateQRCode(division)
+    generateQRCode(sections[division])
   } else {
     document.getElementById("qrcode").innerHTML=""
     document.getElementById('categorySelected').innerHTML = "";
@@ -89,12 +69,12 @@ rotationSpeed = getRandomInt(30,20)
 };
 toggleButton.addEventListener("click", toggleRotation);
 
-function generateQRCode(number) {
-    var url = `https://www.google.com/search?q=${number}`
+function generateQRCode(section) {
+    const now = new Date();
+    url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}?quizSection=${section}`
     console.log(url)
-    url = "https://risingps2024.streamlit.app/pythonpage"
+    // url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}?quizSection=python`
     const qrcode = new QRCode("qrcode",url);
-    console.log(url)
-    document.getElementById('categorySelected').innerHTML = `Your Category is ${number}`;
+    document.getElementById('categorySelected').innerHTML = `Your Category is ${section}`;
   }
 
