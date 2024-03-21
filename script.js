@@ -71,9 +71,9 @@ toggleButton.addEventListener("click", toggleRotation);
 
 function generateQRCode(section) {
     const now = new Date();
-    url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}?quizSection=${section}`
+    url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}&quizSection=${section}`
     console.log(url)
-    // url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}?quizSection=python`
+    // url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}&quizSection=python`
     const qrcode = new QRCode("qrcode",url);
     document.getElementById('categorySelected').innerHTML = `Your Category is ${section}`;
   }
