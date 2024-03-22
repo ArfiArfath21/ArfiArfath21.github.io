@@ -29,7 +29,7 @@ function getCurrentRotationAngle() {
     min = Math.ceil(min);
     max = Math.floor(max);
     randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-    console.log(`randomNum: ${randomNum}`)
+    // console.log(`randomNum: ${randomNum}`)
     return randomNum
   }
 
@@ -46,7 +46,7 @@ const sections = {
 };
 // Function to start or stop the rotation
 const toggleRotation = () => {
-rotationSpeed = getRandomInt(30,20)
+rotationSpeed = getRandomInt(20,10)
   if (isRotating) {
     clearInterval(rotationInterval);
     isRotating = false;
@@ -55,7 +55,7 @@ rotationSpeed = getRandomInt(30,20)
         rotationAngle = 360 + rotationAngle
         console.log("Negative")
       }
-    console.log(rotationAngle);
+    // console.log(rotationAngle);
     var division = Math.floor(rotationAngle/(360/sections_count));
     generateQRCode(sections[division])
   } else {
@@ -71,9 +71,9 @@ toggleButton.addEventListener("click", toggleRotation);
 
 function generateQRCode(section) {
     const now = new Date();
-    url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}&quizSection=${section}`
+    url = `https://risingps2024.streamlit.app/signup?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}&quizSection=${section}`
     console.log(url)
-    // url = `https://risingps2024.streamlit.app/quiz?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}&quizSection=python`
+    // url = `https://risingps2024.streamlit.app/signup?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}&quizSection=python`
     const qrcode = new QRCode("qrcode",url);
     document.getElementById('categorySelected').innerHTML = `Your Category is ${section}`;
   }
