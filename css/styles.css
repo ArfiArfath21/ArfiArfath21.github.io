@@ -8,15 +8,38 @@ body {
 body.modal-open {
   padding: 0px !important;
 }
-
+.modal {
+  transition: opacity 1.2s ease; /* Apply a 0.5s fade in effect */
+  opacity: 0; /* Start with 0 opacity */
+}
+.modal.show {
+  opacity: 1; /* When modal is shown, set opacity to 1 */
+}
+.trigger {
+  margin-top: 50px;
+}
 h3 {
   font-size: medium;
 }
-
+.centered-wheel {
+  margin-top: 50px;
+  /* margin-top: 100px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 .brandImg {
-  padding-top: 60px;
+  padding-top: 50px;
   padding-bottom: 30px;
-
+}
+.imgframe {
+  position: absolute;
+  top: 50%;
+  /* left: 50%; */
+  border-radius: 50%;
+  z-index: 2;
+  /* max-height: 100%; */
 }
 .campaignTitle {
   /* margin-top: 60px; */
@@ -24,27 +47,28 @@ h3 {
   font-family: psfont;
   margin-bottom: 30px;
 }
-.centered-wheel {
-  margin-top: 80px;
-  /* margin-top: 100px; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .modal-footer {
   justify-content: left;
   padding-left: calc(var(--bs-modal-padding) - var(--bs-modal-footer-gap) * .5);
 }
+.modal-footer p{
+  margin-bottom: 0px;
+}
 
 #centered-wheel img {
-  max-height: 100%; /* Ensure the image does not exceed the division's height */
+  max-height: 100%;
+  position: relative;  /* Ensure the image does not exceed the division's height */
 }
 /* #categorySelected {
   margin-bottom: 30px;
 } */
 #spinImage {
   /* padding: 300px; */
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  /* animation: glow 1s infinite alternate; */
 }
 #qrcode {
   display: flex;
@@ -53,16 +77,16 @@ h3 {
 }
 #qrcode img {
   max-height: 100%; /* Ensure the image does not exceed the division's height */
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 #toggleButton {
-  z-index: 2;
+  z-index: 3;
   padding: 12px 24px 12px 24px;
   border: 2px solid #d93550;
   color: #ffffff;
-  border-radius: 130px;
-  background-color: #000000;
-  background-color: #d93550;
+  border-radius: 30px;
+  background-color: #0e1117;
+  /* background-color: #d93550; */
   margin-left: auto;
   margin-right: auto;
   transition-duration: 0.4s;
@@ -70,4 +94,13 @@ h3 {
 #toggleButton:hover {
   color: #ffffff;
   background-color: #d93550;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px -10px rgb(198, 171, 96);
+  }
+  to {
+    box-shadow: 0 0 10px 10px rgb(198, 171, 96);
+  }
 }

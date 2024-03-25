@@ -33,57 +33,90 @@ function getRandomInt(min, max) {
   return randomNum;
 }
 
-const sections_count = 8;
+const sections_count = 12;
+const displaySections = {
+  0: "AI", 11: "AI",
+  1: "Data", 2: "Data",
+  3: "Current Affairs", 4: "Current Affairs",
+  5: "Wellness", 6: "Wellness",
+  7: "Diversity & Inclusion", 8: "Diversity & Inclusion",
+  9: "Tech History", 10: "Tech History"
+};
 const sections = {
-  0: "python",
-  1: "diversity",
-  2: "data",
-  3: "ai",
-  4: "inclusion",
-  5: "test",
-  6: "check",
-  7: "work",
+  0: "ai", 11: "ai",
+  9: "techHistory", 10: "techHistory",
+  7: "dei", 8: "dei",
+  5: "wellness", 6: "wellness",
+  3: "currentAffairs", 4: "currentAffairs",
+  1: "data", 2: "data"
 };
 // Function to start or stop the rotation
+
+function startRotation(duration, rotspeed) {
+  if (!isRotating) {
+    isRotating = true;
+    rotationInterval = setInterval(() => {
+      rotateImageByAngle(rotspeed);
+    }, 1);
+    rotationTimeout = setTimeout(() => {
+      stopRotation();
+    }, duration);
+  }
+}
+function stopRotation() {
+  clearInterval(rotationInterval);
+  isRotating = false;
+}
 const toggleRotation = () => {
-  rotationSpeed = getRandomInt(25, 20);
+  let targetSpeed = getRandomInt(5, 3);
+  let acceleration = 0.01; // Adjust acceleration rate as needed
+  let currentSpeed = 0;
+
   if (isRotating) {
     isRotating = false;
+    clearInterval(rotationInterval);
     rotationAngle = getCurrentRotationAngle();
     if (rotationAngle < 0) {
       rotationAngle = 360 + rotationAngle;
       console.log("Negative");
     }
     document.getElementById("toggleButton").innerHTML = `SPIN THE WHEEL`;
-    clearInterval(rotationInterval);
-    // console.log(rotationAngle);
     var division = Math.floor(rotationAngle / (360 / sections_count));
     var myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
-    myModal.show();
-    generateQRCode(sections[division]);
+    setTimeout(() => {
+      myModal.show();
+      generateQRCode(sections[division], displaySections[division]);
+    }, 500);
   } else {
     document.getElementById("toggleButton").innerHTML = `STOP THE WHEEL`;
     document.getElementById("qrcode").innerHTML = "";
     document.getElementById("categorySelected").innerHTML = "";
     rotationInterval = setInterval(() => {
-      rotateImageByAngle(rotationSpeed);
+      if (currentSpeed < targetSpeed) {
+        currentSpeed += acceleration;
+        if (currentSpeed > targetSpeed) {
+          currentSpeed = targetSpeed;
+        }
+      }
+      rotateImageByAngle(currentSpeed);
     }, 1);
     isRotating = true;
   }
 };
 toggleButton.addEventListener("click", toggleRotation);
 
-function generateQRCode(section) {
+
+function generateQRCode(section, displaySection) {
   const now = new Date();
   var userId = `${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
-  url = `https://risingps2024.streamlit.app/signup?userId=${userId}&quizSection=${section}`;
+  url = `https://rising24ps.streamlit.app/signup?userId=${userId}&quizSection=${section}`;
   console.log(url);
   // url = `https://risingps2024.streamlit.app/signup?userId=${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}&quizSection=python`
   const qrcode = new QRCode("qrcode", url);
-  const titleCaseWord = word => word.toLowerCase().replace(/(?:^|\s)\w/g, match => match.toUpperCase());
+  // const titleCaseWord = word => word.toLowerCase().replace(/(?:^|\s)\w/g, match => match.toUpperCase());
   document.getElementById(
     "categorySelected"
-  ).innerHTML = `<p>User ID: ${userId}<br>Quiz Topic: ${titleCaseWord(section)}\n</p>`;
+  ).innerHTML = `<p>User ID: ${userId}<br>Quiz Topic: ${displaySection}\n</p>`;
 }
 
 // async () => {
@@ -98,3 +131,15 @@ function generateQRCode(section) {
 //         }
 //   }, 10);});};
 //   decelerateRotation(rotationSpeed);
+
+// let globalSpeed = 0;
+//     currentSpeed = globalSpeed;
+//     newRotationInterval = setInterval(() => {
+//       if (currentSpeed > 0) {
+//         console.log("here")
+//         currentSpeed -= acceleration;
+//       }
+//       rotateImageByAngle(currentSpeed);
+//     }, 1);
+//     clearInterval(newRotationInterval);
+//       globalSpeed = currentSpeed;
